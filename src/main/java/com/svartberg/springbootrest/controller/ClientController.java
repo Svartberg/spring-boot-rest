@@ -1,41 +1,58 @@
 package com.svartberg.springbootrest.controller;
 
 import com.svartberg.springbootrest.dto.ClientDTO;
+import com.svartberg.springbootrest.dto.RequestDTO;
 import com.svartberg.springbootrest.service.ClientService;
+import com.svartberg.springbootrest.service.RequestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/client")
+@RequestMapping("/clients")
 public class ClientController {
 
     private final ClientService clientService;
 
+    private final RequestService requestService;
+
     @PostMapping("/")
     public ResponseEntity<?> createNewClient(@RequestBody ClientDTO clientDTO) {
         clientService.create(clientDTO);
-        return  ResponseEntity.accepted().build();
+        return ResponseEntity.accepted().build();
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<?> getAllClient() {
+        List<ClientDTO> clientDTOS = clientService.readAll();
+        return ResponseEntity.ok(clientDTOS);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getClientById(@PathVariable("id") Long id) {
-        return  ResponseEntity.ok(new ClientDTO());
+        ClientDTO clientDTO = clientService.read(id);
+        return ResponseEntity.ok(clientDTO);
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<?> getAllClient() {
-        return  ResponseEntity.ok(new ClientDTO());
+    @PatchMapping("/{id}")
+    public ResponseEntity<?> updateClient(@PathVariable("id") Long id, @RequestBody ClientDTO clientDTO) {
+        clientService.update(id, clientDTO);
+        return ResponseEntity.accepted().build();
     }
 
-    @PatchMapping("/update")
-    public ResponseEntity<?> updateClient(@RequestParam(value="id") Long id, @RequestBody ClientDTO clientDTO) {
-        return  ResponseEntity.ok(new ClientDTO());
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteClient(@PathVariable("id") Long id) {
+        clientService.delete(id);
+        return ResponseEntity.accepted().build();
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<?> deleteClient(@RequestParam(value="id") Long id) {
-        return  ResponseEntity.ok(new ClientDTO());
+    @GetMapping("/{id}/requests")
+    public ResponseEntity<?> getAllClientRequests(@PathVariable("id") Long id) {
+        List<RequestDTO> requestDTOS = requestService.readAllByClientId(id);
+        return ResponseEntity.ok(requestDTOS);
     }
+
 }

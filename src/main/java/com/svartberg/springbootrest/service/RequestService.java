@@ -1,18 +1,20 @@
 package com.svartberg.springbootrest.service;
 
-import com.svartberg.springbootrest.model.Client;
+import com.svartberg.springbootrest.dto.RequestDTO;
 
 import java.util.List;
 
 public interface RequestService {
 
-    void create();
+    void create(RequestDTO requestDTO);
 
-    Client read();
+    RequestDTO read(Long id);
 
-    List<Client> readAll();
+    List<RequestDTO> readAll();
 
-    boolean update();
+    List<RequestDTO> readAllByClientId(Long id);
 
-    boolean delete();
+    boolean update(Long id, RequestDTO requestDTO);
+
+    boolean delete(Long id);
 }

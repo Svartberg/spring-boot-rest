@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -30,13 +31,18 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Client read(Long id) {
-        return findClientById(id);
+    public ClientDTO read(Long id) {
+        return modelMapper.map(findClientById(id), ClientDTO.class);
     }
 
     @Override
-    public List<Client> readAll() {
-        return clientRepository.findAll();
+    public List<ClientDTO> readAll() {
+
+        List<Client> clientList = clientRepository.findAll();
+
+        return clientList.stream()
+                .map(e -> modelMapper.map(e, ClientDTO.class))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -60,7 +66,7 @@ public class ClientServiceImpl implements ClientService {
 
         clientRepository.delete(client);
 
-        return false;
+        return true;
     }
 
     private Client findClientById(Long id) {

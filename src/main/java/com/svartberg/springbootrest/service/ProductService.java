@@ -1,18 +1,18 @@
 package com.svartberg.springbootrest.service;
 
-import com.svartberg.springbootrest.model.Client;
+import com.svartberg.springbootrest.dto.ProductDTO;
 
 import java.util.List;
 
 public interface ProductService {
 
-    void create();
+    void create(final ProductDTO productDTO);
 
-    Client read();
+    ProductDTO read(Long id);
 
-    List<Client> readAll();
+    List<ProductDTO> readAll();
 
-    boolean update();
+    boolean update(Long id, ProductDTO productDTO);
 
-    boolean delete();
+    boolean delete(Long id);
 }

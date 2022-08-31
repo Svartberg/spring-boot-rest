@@ -24,7 +24,7 @@ public class Request {
 
     @ManyToOne
     @JoinColumn(name = "client_id")
-    private Client clientId;
+    private Client client;
 
     @ManyToMany
     @JoinTable(

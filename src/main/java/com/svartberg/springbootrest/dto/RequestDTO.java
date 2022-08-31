@@ -5,6 +5,8 @@ import com.svartberg.springbootrest.model.StatusType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @NoArgsConstructor
 public class RequestDTO {
@@ -14,4 +16,10 @@ public class RequestDTO {
 
     @JsonProperty("status")
     private StatusType status;
+
+    @JsonProperty("client_id")
+    private Long clientId;
+
+    @JsonProperty("date")
+    private Date date;
 }
