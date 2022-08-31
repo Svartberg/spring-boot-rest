@@ -1,5 +1,6 @@
 package com.svartberg.springbootrest.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -25,6 +26,7 @@ public class Client {
 
     @OneToMany(mappedBy = "client")
     @ToString.Exclude
+    @JsonBackReference
     private Set<Request> request;
 
     @Override

@@ -1,5 +1,6 @@
 package com.svartberg.springbootrest.service;
 
+import com.svartberg.springbootrest.dto.ProductRequestDTO;
 import com.svartberg.springbootrest.dto.RequestDTO;
 
 import java.util.List;
@@ -8,13 +9,13 @@ public interface RequestService {
 
     void create(RequestDTO requestDTO);
 
-    RequestDTO read(Long id);
+    ProductRequestDTO read(Long id);
 
-    RequestDTO readByClientId(Long clientId, Long requestId);
+    ProductRequestDTO readByClientId(Long clientId, Long requestId);
 
-    List<RequestDTO> readAll();
+    List<ProductRequestDTO> readAll();
 
-    List<RequestDTO> readAllByClientId(Long id);
+    List<ProductRequestDTO> readAllByClientId(Long id);
 
     boolean update(Long id, RequestDTO requestDTO);
 

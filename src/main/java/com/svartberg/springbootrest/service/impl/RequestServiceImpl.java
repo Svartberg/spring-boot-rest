@@ -1,5 +1,6 @@
 package com.svartberg.springbootrest.service.impl;
 
+import com.svartberg.springbootrest.dto.ProductRequestDTO;
 import com.svartberg.springbootrest.dto.RequestDTO;
 import com.svartberg.springbootrest.exception.CustomException;
 import com.svartberg.springbootrest.model.Client;
@@ -49,35 +50,49 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
-    public RequestDTO read(Long id) {
-        return modelMapper.map(findRequestById(id), RequestDTO.class);
+    public ProductRequestDTO read(Long id) {
+
+        Request request = findRequestById(id);
+
+        List<Product> productList = productRepository.findProductsByRequestsId(id);
+
+        return convertRequestAndProductToProductRequestDTO(request, productList);
     }
 
     @Override
-    public RequestDTO readByClientId(Long clientId, Long requestId) {
-        return modelMapper.map(findRequestByIdAndClientById(clientId, requestId), RequestDTO.class);
+    public ProductRequestDTO readByClientId(Long clientId, Long requestId) {
+
+        Request request = findRequestByIdAndClientById(clientId, requestId);
+
+        List<Product> productList = productRepository.findProductsByRequestsId(requestId);
+
+        return convertRequestAndProductToProductRequestDTO(request, productList);
     }
 
     @Override
-    public List<RequestDTO> readAll() {
+    public List<ProductRequestDTO> readAll() {
 
         List<Request> requestList = requestRepository.findAll();
 
-        return requestList.stream()
+        requestList.stream()
                 .map(e -> modelMapper.map(e, RequestDTO.class))
                 .collect(Collectors.toList());
+
+        return null;
     }
 
     @Override
-    public List<RequestDTO> readAllByClientId(Long id) {
+    public List<ProductRequestDTO> readAllByClientId(Long id) {
 
         Client client = findClientById(id);
 
         List<Request> requestList = requestRepository.findAllByClientOrderByIdDesc(client);
 
-        return requestList.stream()
+        requestList.stream()
                 .map(e -> modelMapper.map(e, RequestDTO.class))
                 .collect(Collectors.toList());
+
+        return null;
     }
 
     @Override
@@ -153,5 +168,15 @@ public class RequestServiceImpl implements RequestService {
         return productsId.stream()
                 .map(e -> productRepository.findById(e).orElse(null))
                 .collect(Collectors.toSet());
+    }
+
+    private ProductRequestDTO convertRequestAndProductToProductRequestDTO(Request request,
+                                                                          List<Product> productList) {
+
+        ProductRequestDTO productRequestDTO = modelMapper.map(request, ProductRequestDTO.class);
+
+        productRequestDTO.setProducts(productList);
+
+        return productRequestDTO;
     }
 }

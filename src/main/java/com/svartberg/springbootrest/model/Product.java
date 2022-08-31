@@ -1,8 +1,8 @@
 package com.svartberg.springbootrest.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -11,6 +11,7 @@ import java.util.Set;
 
 
 @Entity
+@Table(name = "products")
 @Data
 @NoArgsConstructor
 public class Product {
@@ -25,8 +26,8 @@ public class Product {
 
     private String comment;
 
-    @ManyToMany(mappedBy = "products")
-    @ToString.Exclude
+    @ManyToMany(mappedBy = "products", fetch = FetchType.LAZY)
+    @JsonBackReference
     private Set<Request> requests = new HashSet<>();
 
     @Override
@@ -40,5 +41,15 @@ public class Product {
     @Override
     public int hashCode() {
         return Objects.hash(id, name, weight, comment);
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", weight=" + weight +
+                ", comment='" + comment + '\'' +
+                '}';
     }
 }

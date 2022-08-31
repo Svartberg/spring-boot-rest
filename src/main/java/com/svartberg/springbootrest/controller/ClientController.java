@@ -1,7 +1,7 @@
 package com.svartberg.springbootrest.controller;
 
 import com.svartberg.springbootrest.dto.ClientDTO;
-import com.svartberg.springbootrest.dto.RequestDTO;
+import com.svartberg.springbootrest.dto.ProductRequestDTO;
 import com.svartberg.springbootrest.service.ClientService;
 import com.svartberg.springbootrest.service.RequestService;
 import lombok.RequiredArgsConstructor;
@@ -51,15 +51,15 @@ public class ClientController {
 
     @GetMapping("/{id}/requests")
     public ResponseEntity<?> getAllClientRequests(@PathVariable("id") Long id) {
-        List<RequestDTO> requestDTOS = requestService.readAllByClientId(id);
-        return ResponseEntity.ok(requestDTOS);
+        List<ProductRequestDTO> productRequestDTOS = requestService.readAllByClientId(id);
+        return ResponseEntity.ok(productRequestDTOS);
     }
 
     @GetMapping("/{client_id}/requests/{request_id}")
     public ResponseEntity<?> getAllClientRequests(@PathVariable("client_id") Long clientId,
                                                   @PathVariable("request_id") Long requestId ) {
-        RequestDTO requestDTO = requestService.readByClientId(clientId, requestId);
-        return ResponseEntity.ok(requestDTO);
+        ProductRequestDTO productRequestDTO = requestService.readByClientId(clientId, requestId);
+        return ResponseEntity.ok(productRequestDTO);
     }
 
 }
