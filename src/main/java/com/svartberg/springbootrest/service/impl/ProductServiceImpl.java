@@ -3,10 +3,8 @@ package com.svartberg.springbootrest.service.impl;
 import com.svartberg.springbootrest.dto.ProductDTO;
 import com.svartberg.springbootrest.exception.CustomException;
 import com.svartberg.springbootrest.model.Product;
-import com.svartberg.springbootrest.model.Request;
 import com.svartberg.springbootrest.repository.ProductRepository;
 import com.svartberg.springbootrest.service.ProductService;
-import com.svartberg.springbootrest.service.RequestService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -20,8 +18,6 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
-
-    private final RequestService requestService;
 
     private final ModelMapper modelMapper;
 
@@ -40,11 +36,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDTO readByRequestId(Long requestId, Long productId) {
-        return null;
-    }
-
-    @Override
     public List<ProductDTO> readAll() {
 
         List<Product> productList = productRepository.findAll();
@@ -56,6 +47,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDTO> readAllByRequestId(Long id) {
+
         return null;
     }
 
@@ -90,17 +82,6 @@ public class ProductServiceImpl implements ProductService {
         if (product == null) {
             throw new CustomException("Product Id is not found", HttpStatus.UNPROCESSABLE_ENTITY);
         }
-
-        return product;
-    }
-
-    private Product findProductByIdAndRequestById(Long requestId, Long productId) {
-
-        final Product product = findProductById(productId);
-
-        final Request request = modelMapper.map(requestService.read(requestId), Request.class);
-
-
 
         return product;
     }

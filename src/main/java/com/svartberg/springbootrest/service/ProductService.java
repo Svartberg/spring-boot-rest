@@ -10,8 +10,6 @@ public interface ProductService {
 
     ProductDTO read(Long id);
 
-    ProductDTO readByRequestId(Long requestId, Long productId);
-
     List<ProductDTO> readAll();
 
     List<ProductDTO> readAllByRequestId(Long id);

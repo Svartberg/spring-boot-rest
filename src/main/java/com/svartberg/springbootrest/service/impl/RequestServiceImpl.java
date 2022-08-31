@@ -3,8 +3,10 @@ package com.svartberg.springbootrest.service.impl;
 import com.svartberg.springbootrest.dto.RequestDTO;
 import com.svartberg.springbootrest.exception.CustomException;
 import com.svartberg.springbootrest.model.Client;
+import com.svartberg.springbootrest.model.Product;
 import com.svartberg.springbootrest.model.Request;
 import com.svartberg.springbootrest.repository.ClientRepository;
+import com.svartberg.springbootrest.repository.ProductRepository;
 import com.svartberg.springbootrest.repository.RequestRepository;
 import com.svartberg.springbootrest.service.RequestService;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +14,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,12 +28,35 @@ public class RequestServiceImpl implements RequestService {
 
     private final ClientRepository clientRepository;
 
+    private final ProductRepository productRepository;
+
     private final ModelMapper modelMapper;
 
     @Override
     public void create(RequestDTO requestDTO) {
 
         final Request request = modelMapper.map(requestDTO, Request.class);
+
+        final Client client = modelMapper.map(findClientById(requestDTO.getClientId()), Client.class);
+
+        request.setClient(client);
+
+        Set<Product> productSet = new HashSet<>();
+
+        requestDTO.getProductId().forEach(e -> {
+                    Product product = productRepository.findById(e).orElse(null);;
+
+                    if (product == null) return;
+
+                    productSet.add(product);}
+                );
+
+        request.setProducts(productSet);
+
+
+        Date date = new Date();
+
+        request.setDate(date);
 
         requestRepository.save(request);
 

@@ -16,6 +16,7 @@ public class Request {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Temporal(TemporalType.DATE)
     private Date date;
 
     private String secretWord;
