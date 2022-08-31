@@ -15,7 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -35,24 +34,13 @@ public class RequestServiceImpl implements RequestService {
     @Override
     public void create(RequestDTO requestDTO) {
 
-        final Request request = modelMapper.map(requestDTO, Request.class);
+        Request request = modelMapper.map(requestDTO, Request.class);
 
-        final Client client = modelMapper.map(findClientById(requestDTO.getClientId()), Client.class);
+        request.setClient(findClientById(requestDTO.getClientId()));
 
-        request.setClient(client);
-
-        Set<Product> productSet = new HashSet<>();
-
-        requestDTO.getProductId().forEach(e -> {
-                    Product product = productRepository.findById(e).orElse(null);;
-
-                    if (product == null) return;
-
-                    productSet.add(product);}
-                );
+        Set<Product> productSet = requestDTO.getProductId().stream().map(e -> productRepository.findById(e).orElse(null)).collect(Collectors.toSet());
 
         request.setProducts(productSet);
-
 
         Date date = new Date();
 
