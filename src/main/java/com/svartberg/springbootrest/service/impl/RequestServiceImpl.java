@@ -40,6 +40,11 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
+    public RequestDTO readByClientId(Long clientId, Long requestId) {
+        return modelMapper.map(findRequestByIdAndClientById(clientId, requestId), RequestDTO.class);
+    }
+
+    @Override
     public List<RequestDTO> readAll() {
 
         List<Request> requestList = requestRepository.findAll();
@@ -77,7 +82,12 @@ public class RequestServiceImpl implements RequestService {
 
     @Override
     public boolean delete(Long id) {
-        return false;
+
+        final Request request = findRequestById(id);
+
+        requestRepository.delete(request);
+
+        return true;
     }
 
     private Request findRequestById(Long id) {
@@ -85,7 +95,18 @@ public class RequestServiceImpl implements RequestService {
         final Request request = requestRepository.findById(id).orElse(null);
 
         if (request == null) {
-            throw new CustomException("Product Id is not found", HttpStatus.UNPROCESSABLE_ENTITY);
+            throw new CustomException("Request Id is not found", HttpStatus.UNPROCESSABLE_ENTITY);
+        }
+
+        return request;
+    }
+
+    private Request findRequestByIdAndClientById(Long clientId, Long requestId) {
+
+        final Request request = findRequestById(requestId);
+
+        if (!request.getClient().getId().equals(clientId)) {
+            throw new CustomException("Client Id is not found in Request", HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
         return request;

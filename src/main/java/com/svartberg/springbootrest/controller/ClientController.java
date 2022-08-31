@@ -55,4 +55,11 @@ public class ClientController {
         return ResponseEntity.ok(requestDTOS);
     }
 
+    @GetMapping("/{client_id}/requests/{request_id}")
+    public ResponseEntity<?> getAllClientRequests(@PathVariable("client_id") Long clientId,
+                                                  @PathVariable("request_id") Long requestId ) {
+        RequestDTO requestDTO = requestService.readByClientId(clientId, requestId);
+        return ResponseEntity.ok(requestDTO);
+    }
+
 }

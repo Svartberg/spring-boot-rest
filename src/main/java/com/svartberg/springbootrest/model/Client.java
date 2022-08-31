@@ -21,7 +21,7 @@ public class Client {
 
     private String comment;
 
-    @OneToMany(mappedBy = "clientId")
+    @OneToMany(mappedBy = "client")
     private Set<Request> request;
 
 }

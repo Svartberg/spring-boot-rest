@@ -47,7 +47,13 @@ public class RequestController {
     }
 
     @GetMapping("/{id}/products")
-    public ResponseEntity<?> getAllClientRequests(@PathVariable("id") Long id) {
+    public ResponseEntity<?> getAllRequestProducts(@PathVariable("id") Long id) {
+        return  ResponseEntity.ok(new ClientDTO());
+    }
+
+    @GetMapping("/{request_id}/products/{product_id}")
+    public ResponseEntity<?> getRequestProduct(@PathVariable("request_id") Long requestId,
+                                               @PathVariable("product_id") Long productId) {
         return  ResponseEntity.ok(new ClientDTO());
     }
 }

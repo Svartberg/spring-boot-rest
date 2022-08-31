@@ -10,6 +10,8 @@ public interface RequestService {
 
     RequestDTO read(Long id);
 
+    RequestDTO readByClientId(Long clientId, Long requestId);
+
     List<RequestDTO> readAll();
 
     List<RequestDTO> readAllByClientId(Long id);
