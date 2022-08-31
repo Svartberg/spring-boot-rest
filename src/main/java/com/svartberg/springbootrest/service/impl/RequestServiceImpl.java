@@ -36,13 +36,11 @@ public class RequestServiceImpl implements RequestService {
 
         Request request = modelMapper.map(requestDTO, Request.class);
 
+        Date date = new Date();
+
         request.setClient(findClientById(requestDTO.getClientId()));
 
-        Set<Product> productSet = requestDTO.getProductId().stream().map(e -> productRepository.findById(e).orElse(null)).collect(Collectors.toSet());
-
-        request.setProducts(productSet);
-
-        Date date = new Date();
+        request.setProducts(getFilteredSetProducts(requestDTO.getProductId()));
 
         request.setDate(date);
 
@@ -144,10 +142,16 @@ public class RequestServiceImpl implements RequestService {
 
         final Client client = clientRepository.findById(id).orElse(null);
 
-        if(client == null) {
+        if (client == null) {
             throw new CustomException("Client Id is not found", HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
         return client;
+    }
+
+    private Set<Product> getFilteredSetProducts(List<Long> productsId) {
+        return productsId.stream()
+                .map(e -> productRepository.findById(e).orElse(null))
+                .collect(Collectors.toSet());
     }
 }
