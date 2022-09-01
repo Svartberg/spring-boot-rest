@@ -98,11 +98,9 @@ public class RequestServiceImpl implements RequestService {
     @Override
     public boolean update(Long id, RequestDTO requestDTO) {
 
-        Request requestOld = findRequestById(id);
+        Request request = findRequestById(id);
 
-        Request requestNew = modelMapper.map(requestDTO, Request.class);
-
-        Request requestUpdate = updateRequest(requestOld, requestNew);
+        Request requestUpdate = updateRequest(request, requestDTO);
 
         requestRepository.save(requestUpdate);
 
@@ -141,16 +139,21 @@ public class RequestServiceImpl implements RequestService {
         return request;
     }
 
-    private Request updateRequest(Request requestOld, Request requestNew) {
+    private Request updateRequest(Request request, RequestDTO requestDTO) {
 
-        if (requestNew.getSecretWord() != null) {
-            requestOld.setSecretWord(requestNew.getSecretWord());
+        Request requestNew = modelMapper.map(requestDTO, Request.class);
+
+        if (requestDTO.getSecretWord() != null) {
+            request.setSecretWord(requestNew.getSecretWord());
         }
-        if (requestNew.getStatus() != null) {
-            requestOld.setStatus(requestNew.getStatus());
+        if (requestDTO.getStatus() != null) {
+            request.setStatus(requestNew.getStatus());
+        }
+        if (!requestDTO.getProductId().isEmpty()) {
+            request.setProducts(getFilteredSetProducts(requestDTO.getProductId()));
         }
 
-        return requestOld;
+        return request;
     }
 
     private Client findClientById(Long id) {
