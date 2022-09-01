@@ -22,7 +22,7 @@ public class ClientController {
 
     private final RequestService requestService;
 
-    @Operation(summary = "Create new client", description = "Создание нового клиета.")
+    @Operation(summary = "Create new client", description = "Создание нового клиента.")
     @PostMapping("/")
     public ResponseEntity<?> createNewClient(@RequestBody ClientDTO clientDTO) {
         clientService.create(clientDTO);
@@ -43,7 +43,7 @@ public class ClientController {
         return ResponseEntity.ok(clientDTO);
     }
 
-    @Operation(summary = "Update client", description = "Обновление информации о клиете.")
+    @Operation(summary = "Update client", description = "Обновление информации о клиенте.")
     @PatchMapping("/{id}")
     public ResponseEntity<?> updateClient(@PathVariable("id") Long id, @RequestBody ClientDTO clientDTO) {
         clientService.update(id, clientDTO);
