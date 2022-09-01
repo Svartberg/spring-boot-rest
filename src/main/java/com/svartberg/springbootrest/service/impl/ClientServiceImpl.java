@@ -74,7 +74,7 @@ public class ClientServiceImpl implements ClientService {
         final Client client = clientRepository.findById(id).orElse(null);
 
         if(client == null) {
-            throw new CustomException("Client Id is not found", HttpStatus.UNPROCESSABLE_ENTITY);
+            throw new CustomException("Client Id is not found", HttpStatus.NOT_FOUND);
         }
 
         return client;

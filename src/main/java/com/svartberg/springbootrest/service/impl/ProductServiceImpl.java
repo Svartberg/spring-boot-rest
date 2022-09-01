@@ -90,7 +90,7 @@ public class ProductServiceImpl implements ProductService {
         final Product product = productRepository.findById(id).orElse(null);
 
         if (product == null) {
-            throw new CustomException("Product Id is not found", HttpStatus.UNPROCESSABLE_ENTITY);
+            throw new CustomException("Product Id is not found", HttpStatus.NOT_FOUND);
         }
 
         return product;
@@ -101,7 +101,7 @@ public class ProductServiceImpl implements ProductService {
         final Request request = requestRepository.findById(id).orElse(null);
 
         if (request == null) {
-            throw new CustomException("Request Id is not found", HttpStatus.UNPROCESSABLE_ENTITY);
+            throw new CustomException("Request Id is not found", HttpStatus.NOT_FOUND);
         }
 
         return request;

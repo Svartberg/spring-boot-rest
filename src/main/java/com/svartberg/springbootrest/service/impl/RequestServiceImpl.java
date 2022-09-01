@@ -122,7 +122,7 @@ public class RequestServiceImpl implements RequestService {
         final Request request = requestRepository.findById(id).orElse(null);
 
         if (request == null) {
-            throw new CustomException("Request Id is not found", HttpStatus.UNPROCESSABLE_ENTITY);
+            throw new CustomException("Request Id is not found", HttpStatus.NOT_FOUND);
         }
 
         return request;
@@ -133,7 +133,7 @@ public class RequestServiceImpl implements RequestService {
         final Request request = findRequestById(requestId);
 
         if (!request.getClient().getId().equals(clientId)) {
-            throw new CustomException("Client Id is not found in Request", HttpStatus.UNPROCESSABLE_ENTITY);
+            throw new CustomException("Client Id is not found in Request", HttpStatus.NOT_FOUND);
         }
 
         return request;
@@ -161,7 +161,7 @@ public class RequestServiceImpl implements RequestService {
         final Client client = clientRepository.findById(id).orElse(null);
 
         if (client == null) {
-            throw new CustomException("Client Id is not found", HttpStatus.UNPROCESSABLE_ENTITY);
+            throw new CustomException("Client Id is not found", HttpStatus.NOT_FOUND);
         }
 
         return client;

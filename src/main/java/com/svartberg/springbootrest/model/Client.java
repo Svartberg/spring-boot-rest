@@ -24,7 +24,7 @@ public class Client {
 
     private String comment;
 
-    @OneToMany(mappedBy = "client")
+    @OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @ToString.Exclude
     @JsonBackReference
     private Set<Request> request;
