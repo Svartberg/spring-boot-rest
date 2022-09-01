@@ -74,11 +74,11 @@ public class RequestServiceImpl implements RequestService {
 
         List<Request> requestList = requestRepository.findAll();
 
-        requestList.stream()
-                .map(e -> modelMapper.map(e, RequestDTO.class))
+        return requestList.stream()
+                .map(e -> {
+                    List<Product> productList = productRepository.findProductsByRequestsId(e.getId());
+                    return convertRequestAndProductToProductRequestDTO(e, productList);})
                 .collect(Collectors.toList());
-
-        return null;
     }
 
     @Override
@@ -88,11 +88,11 @@ public class RequestServiceImpl implements RequestService {
 
         List<Request> requestList = requestRepository.findAllByClientOrderByIdDesc(client);
 
-        requestList.stream()
-                .map(e -> modelMapper.map(e, RequestDTO.class))
+        return requestList.stream()
+                .map(e -> {
+                    List<Product> productList = productRepository.findProductsByRequestsId(e.getId());
+                    return convertRequestAndProductToProductRequestDTO(e, productList);})
                 .collect(Collectors.toList());
-
-        return null;
     }
 
     @Override
